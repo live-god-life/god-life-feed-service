@@ -1,13 +1,13 @@
-package com.godlife.godlifefeedservice;
+package com.godlife.feedservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GodLifeFeedServiceApplication {
+public class FeedServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GodLifeFeedServiceApplication.class, args);
+		SpringApplication.run(FeedServiceApplication.class, args);
 	}
 
 }
