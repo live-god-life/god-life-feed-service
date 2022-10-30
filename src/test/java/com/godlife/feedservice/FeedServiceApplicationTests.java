@@ -1,10 +1,10 @@
-package com.godlife.godlifefeedservice;
+package com.godlife.feedservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GodLifeFeedServiceApplicationTests {
+class FeedServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
