@@ -30,7 +30,7 @@ class FeedServiceTest {
         List<FeedsDto> feeds = feedService.getFeeds(PageRequest.of(0, 25), "ALL", null);
 
         //then
-        assertThat(feeds.size()).isEqualTo(1);
+        assertThat(feeds.size()).isGreaterThanOrEqualTo(1);
     }
     @Test
     @DisplayName("피드의 상세내용을 조회한다.")
