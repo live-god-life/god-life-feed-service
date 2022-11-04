@@ -11,15 +11,40 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
 @SpringBootTest
 class FeedServiceTest {
     @Autowired FeedService feedService;
 
+    @Test
+    @DisplayName("피드의 상세내용을 조회한다.")
+    void getFeedDetail() {
+        //given
+        saveSampleFeed();
+
+        //when
+        List<FeedsDto> feeds = feedService.getFeeds(PageRequest.of(0, 25), "ALL", null);
+
+        Long feedId = 1L;
+
+        for (FeedsDto feed : feeds) {
+            feedId = feed.getFeedId();
+        }
+        
+        
+        FeedDetailDto feed = feedService.getFeedById(feedId);
+
+        //then
+        assertThat(feed).isNotNull();
+        assertThat(feed.getMindsets().size()).isEqualTo(1);
+        assertThat(feed.getTodos().size()).isEqualTo(2);
+    }
     @Test
     @DisplayName("피드리스트를 조회한다.")
     void getFeeds() {
@@ -31,20 +56,6 @@ class FeedServiceTest {
 
         //then
         assertThat(feeds.size()).isGreaterThanOrEqualTo(1);
-    }
-    @Test
-    @DisplayName("피드의 상세내용을 조회한다.")
-    void getFeedDetail() {
-        //given
-        saveSampleFeed();
-
-        //when
-        FeedDetailDto feed = feedService.getFeedById(1L);
-
-        //then
-        assertThat(feed).isNotNull();
-        assertThat(feed.getMindsets().size()).isEqualTo(1);
-        assertThat(feed.getTodos().size()).isEqualTo(2);
     }
 
     private void saveSampleFeed() {
