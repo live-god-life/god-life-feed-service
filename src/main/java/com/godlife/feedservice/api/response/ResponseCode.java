@@ -4,11 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum ResponseCode {
-    SUCCESS("success"), ERROR("error");
+	SUCCESS("success"), ERROR("error");
 
-    private final String lowerName;
+	private final String lowerName;
 
-    ResponseCode(String lowerName) {
-        this.lowerName = lowerName;
-    }
+	ResponseCode(String lowerName) {
+		this.lowerName = lowerName;
+	}
 }
