@@ -1,10 +1,10 @@
 package com.godlife.feedservice.service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +29,18 @@ public class FeedService {
 	private final MindsetRepository mindsetRepository;
 	private final TodoRepository todoRepository;
 
-	public List<FeedsDto> getFeeds(Pageable page, String category, List<Long> ids) {
-		List<Feed> feeds;
-		if (Objects.nonNull(ids)) {
-			feeds = feedRepository.findByIds(page, ids);
-		} else {
-			feeds = category.equals("ALL") ? feedRepository.findAll(page).getContent() : feedRepository.findAllByCategory(page, category);
-		}
-		return createFeedDtos(feeds, getUsersInfo(feeds));
+	public List<FeedsDto> getFeeds(Pageable page, @Nullable String category, @Nullable List<Long> feedIds) {
+
+		List<FeedsDto> feedsDtos = feedRepository.findAllByCategoryAndFeedIds(page, category, feedIds);
+		feedDtosSetUserInfo(feedsDtos, getUsersInfoUsingAPI(feedsDtos));
+		return feedsDtos;
+	}
+
+	private void feedDtosSetUserInfo(List<FeedsDto> feedsDtos, List<UserDto> userDtos) {
+		userDtos.forEach(userDto -> feedsDtos.stream()
+			.filter(feedsDto -> feedsDto.getUserId().equals(userDto.getUserId()))
+			.collect(Collectors.toList())
+			.forEach(feedsDto -> feedsDto.registerUser(userDto)));
 	}
 
 	@Transactional
@@ -50,32 +54,12 @@ public class FeedService {
 		return FeedDetailDto.createDtoWithFeedAndMindsetsAndTodos(feed, mindsets, todos);
 	}
 
-	private List<FeedsDto> createFeedDtos(List<Feed> feeds, List<UserDto> users) {
-		List<FeedsDto> feedsDtos = feeds.stream().map(FeedsDto::of).collect(Collectors.toList());
-		feedDtosSetUsersInfo(feedsDtos, users);
-		return feedsDtos;
-	}
-
-	private void feedDtosSetUsersInfo(List<FeedsDto> feedsDtos, List<UserDto> userDtos) {
-		feedsDtos.forEach(feedsDto -> {
-			for (UserDto userDto : userDtos) {
-				if (feedsDto.getUserId().equals(userDto.getId())) {
-					feedsDto.registerUser(userDto);
-					break;
-				}
-			}
-		});
-	}
-
-	private static String userIdsToString(List<Feed> feeds) {
-		return feeds.stream()
+	//TODO user 정보 API를 통해 받아오기 (GET /users/profile?ids=1,2,3..)
+	private List<UserDto> getUsersInfoUsingAPI(List<FeedsDto> feeds) {
+		String userIds = feeds.stream()
 			.map(feed -> feed.getUserId().toString())
 			.collect(Collectors.joining(","));
-	}
 
-	private List<UserDto> getUsersInfo(List<Feed> feeds) {
-		//TODO user 정보 API를 통해 받아오기 (GET /users/profile?ids=1,2,3..)
-		String userIds = userIdsToString(feeds);
 		return List.of(new UserDto(1L, "닉네임1", "https://server/1.jpg"), new UserDto(2L, "닉네임2", "https://server/2.jpg"));
 	}
 

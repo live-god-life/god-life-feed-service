@@ -30,11 +30,10 @@ public class FeedController {
 	@GetMapping("/feeds")
 	public ResponseEntity<ApiResponse> getFeeds(
 		@PageableDefault(size = DEFAULT_PAGE) Pageable page,
-		@RequestParam(value = "category", required = false, defaultValue = "ALL") String category,
-		@RequestParam(value = "ids", required = false) List<Long> ids) {
+		@RequestParam(value = "category", required = false) String category,
+		@RequestParam(value = "ids", required = false) List<Long> feedIds) {
 
-		log.info("page: {}, category: {}, ids: {}", page, category, ids);
-		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeeds(page, category, ids)));
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeeds(page, category, feedIds)));
 	}
 
 	@GetMapping("/feeds/{feedId}")

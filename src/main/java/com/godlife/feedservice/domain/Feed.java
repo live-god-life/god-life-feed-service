@@ -36,6 +36,10 @@ public class Feed {
 	private int viewCount;
 	@Comment("가져가기 카운트")
 	private int pickCount;
+	@Comment("투두 카운트")
+	private int todoCount;
+	@Comment("투두 일정 카운트")
+	private int todoScheduleCount;
 
 	//===이미지===
 	@Comment("이미지 Path")
