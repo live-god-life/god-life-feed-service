@@ -32,6 +32,7 @@ class FeedControllerTest {
 				.queryParam("page", "0")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data.[0].feedId").exists())
 			.andDo(print());
 	}
 
