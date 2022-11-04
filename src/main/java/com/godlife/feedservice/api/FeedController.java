@@ -1,11 +1,7 @@
 package com.godlife.feedservice.api;
 
-import com.godlife.feedservice.api.response.ApiResponse;
-import com.godlife.feedservice.api.response.ResponseCode;
-import com.godlife.feedservice.exception.NoSuchFeedException;
-import com.godlife.feedservice.service.FeedService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -16,31 +12,41 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.godlife.feedservice.api.response.ApiResponse;
+import com.godlife.feedservice.api.response.ResponseCode;
+import com.godlife.feedservice.exception.NoSuchFeedException;
+import com.godlife.feedservice.service.FeedService;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @AllArgsConstructor
 @RestController
 public class FeedController {
-    private final FeedService feedService;
-    private static final int DEFAULT_PAGE = 25;
+	private final FeedService feedService;
+	private static final int DEFAULT_PAGE = 25;
 
-    @GetMapping("/feeds")
-    public ResponseEntity<ApiResponse> getFeeds(@PageableDefault(size = DEFAULT_PAGE) Pageable page,
-                                                @RequestParam(value = "category", required = false, defaultValue = "ALL") String category,
-                                                @RequestParam(value = "ids", required = false) List<Long> ids) {
-        log.info("page: {}, category: {}, ids: {}", page, category, ids);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeeds(page, category, ids)));
-    }
+	@GetMapping("/feeds")
+	public ResponseEntity<ApiResponse> getFeeds(
+		@PageableDefault(size = DEFAULT_PAGE) Pageable page,
+		@RequestParam(value = "category", required = false, defaultValue = "ALL") String category,
+		@RequestParam(value = "ids", required = false) List<Long> ids) {
 
-    @GetMapping("/feeds/{feedId}")
-    public ResponseEntity<ApiResponse> getFeed(@PathVariable(value = "feedId") Long feedId) {
-        log.info("feedId: {}", feedId);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedById(feedId)));
-    }
+		log.info("page: {}, category: {}, ids: {}", page, category, ids);
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeeds(page, category, ids)));
+	}
 
-    @ExceptionHandler
-    public ResponseEntity<ApiResponse> noSuchFeedException(NoSuchFeedException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ResponseCode.ERROR, e.getMessage()));
-    }
+	@GetMapping("/feeds/{feedId}")
+	public ResponseEntity<ApiResponse> getFeed(
+		@PathVariable(value = "feedId") Long feedId) {
+
+		log.info("feedId: {}", feedId);
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedById(feedId)));
+	}
+
+	@ExceptionHandler
+	public ResponseEntity<ApiResponse> noSuchFeedException(NoSuchFeedException e) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ResponseCode.ERROR, e.getMessage()));
+	}
 }
