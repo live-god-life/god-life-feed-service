@@ -1,0 +1,36 @@
+{
+  "status": "success",
+  "message": null,
+  "data": [
+    {
+      "feedId": 1,
+      "title": "CAREER",
+      "viewCount": 0,
+      "pickCount": 0,
+      "todoCount": 0,
+      "todoScheduleCount": 0,
+      "image": "http://server/feeds/images/1.jpg",
+      "bookMarkStatus": false,
+      "user": {
+        "userId": 1,
+        "nickname": "닉네임1",
+        "image": "https://server/1.jpg"
+      }
+    },
+    {
+      "feedId": 2,
+      "title": "CAREER",
+      "viewCount": 0,
+      "pickCount": 0,
+      "todoCount": 0,
+      "todoScheduleCount": 0,
+      "image": "http://server/feeds/images/2.jpg",
+      "bookMarkStatus": false,
+      "user": {
+        "userId": 1,
+        "nickname": "닉네임1",
+        "image": "https://server/1.jpg"
+      }
+    }
+  ]
+}
