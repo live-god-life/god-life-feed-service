@@ -17,13 +17,13 @@ import javax.persistence.Lob;
 public class Feed {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long feedId;
+    @Comment("피드 카테고리")
+    private String category;
     @Comment("피드 제목")
     private String title;
     @Comment("피드 내용")
     @Lob
     private String content;
-    @Comment("피드 카테고리")
-    private String category;
 
     //===사용자정보===
     @Comment("작성자 ID")
