@@ -11,10 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.godlife.feedservice.domain.Feed;
 import com.godlife.feedservice.domain.Mindset;
 import com.godlife.feedservice.domain.Todo;
-import com.godlife.feedservice.dto.FeedDetailDto;
+import com.godlife.feedservice.dto.FeedMindsetsTodosDto;
 import com.godlife.feedservice.dto.FeedsDto;
 import com.godlife.feedservice.dto.UserDto;
-import com.godlife.feedservice.exception.NoSuchFeedException;
 import com.godlife.feedservice.repository.FeedRepository;
 import com.godlife.feedservice.repository.MindsetRepository;
 import com.godlife.feedservice.repository.TodoRepository;
@@ -43,15 +42,8 @@ public class FeedService {
 			.forEach(feedsDto -> feedsDto.registerUser(userDto)));
 	}
 
-	@Transactional
-	public FeedDetailDto getFeedById(Long feedId) {
-		Feed feed = feedRepository.findById(feedId)
-			.orElseThrow(() -> new NoSuchFeedException(feedId));
-		feed.plusViewCount();
-		List<Mindset> mindsets = mindsetRepository.findByFeed(feed);
-		List<Todo> todos = todoRepository.findByFeedAndDepth(feed, 1);
-
-		return FeedDetailDto.createDtoWithFeedAndMindsetsAndTodos(feed, mindsets, todos);
+	public FeedMindsetsTodosDto getFeedDetail(Long feedId) {
+		return feedRepository.findFeedWithMindsetsAndTodosByFeedId(feedId);
 	}
 
 	//TODO user 정보 API를 통해 받아오기 (GET /users/profile?ids=1,2,3..)

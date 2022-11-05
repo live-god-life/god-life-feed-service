@@ -31,13 +31,4 @@ public class Mindset {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "feed_id")
 	private Feed feed;
-
-	private Mindset(String content, Feed feed) {
-		this.content = content;
-		this.feed = feed;
-	}
-
-	public static Mindset createMindset(String content, Feed feed) {
-		return new Mindset(content, feed);
-	}
 }

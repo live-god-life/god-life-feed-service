@@ -14,7 +14,7 @@ public class FeedsDto {
 	private int viewCount;
 	private int pickCount;
 	private int todoCount;
-	private int todoScheduleCount;
+	private int todoScheduleDay;
 
 	//===이미지===
 	private String image;
@@ -28,13 +28,13 @@ public class FeedsDto {
 	private UserDto user;
 
 	@QueryProjection
-	public FeedsDto(Long feedId, String title, int viewCount, int pickCount, int todoCount, int todoScheduleCount, String image, Long userId) {
+	public FeedsDto(Long feedId, String title, int viewCount, int pickCount, int todoCount, int todoScheduleDay, String image, Long userId) {
 		this.feedId = feedId;
 		this.title = title;
 		this.viewCount = viewCount;
 		this.pickCount = pickCount;
 		this.todoCount = todoCount;
-		this.todoScheduleCount = todoScheduleCount;
+		this.todoScheduleDay = todoScheduleDay;
 		this.image = image;
 		this.userId = userId;
 	}
