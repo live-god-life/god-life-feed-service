@@ -4,11 +4,11 @@
   "data": [
     {
       "feedId": 1,
-      "title": "CAREER",
+      "title": "피드1 제목입니다.",
       "viewCount": 0,
       "pickCount": 0,
       "todoCount": 0,
-      "todoScheduleCount": 0,
+      "todoScheduleDay": 0,
       "image": "http://server/feeds/images/1.jpg",
       "bookMarkStatus": false,
       "user": {
@@ -19,11 +19,11 @@
     },
     {
       "feedId": 2,
-      "title": "CAREER",
+      "title": "피드2 제목입니다.",
       "viewCount": 0,
       "pickCount": 0,
       "todoCount": 0,
-      "todoScheduleCount": 0,
+      "todoScheduleDay": 0,
       "image": "http://server/feeds/images/2.jpg",
       "bookMarkStatus": false,
       "user": {

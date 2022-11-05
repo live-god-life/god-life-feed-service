@@ -37,11 +37,10 @@ public class FeedController {
 	}
 
 	@GetMapping("/feeds/{feedId}")
-	public ResponseEntity<ApiResponse> getFeed(
+	public ResponseEntity<ApiResponse> getFeedDetail(
 		@PathVariable(value = "feedId") Long feedId) {
 
-		log.info("feedId: {}", feedId);
-		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedById(feedId)));
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedDetail(feedId)));
 	}
 
 	@ExceptionHandler

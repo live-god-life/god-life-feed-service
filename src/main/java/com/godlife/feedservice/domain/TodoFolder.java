@@ -19,16 +19,4 @@ import lombok.NoArgsConstructor;
 public class TodoFolder extends Todo {
 	@OneToMany(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<TodoTask> todos = new ArrayList<>();
-
-	protected TodoFolder(String title, Integer depth, Integer orderNumber, Feed feed) {
-		super(title, depth, orderNumber, feed);
-	}
-
-	public static TodoFolder createTodoFolder(String title, int depth, int orderNumber, Feed feed) {
-		return new TodoFolder(title, depth, orderNumber, feed);
-	}
-
-	public void addChildTodos(List<TodoTask> todos) {
-		this.todos.addAll(todos);
-	}
 }

@@ -1,58 +1,63 @@
 package com.godlife.feedservice.dto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import com.godlife.feedservice.domain.Todo;
-import com.godlife.feedservice.domain.TodoFolder;
-import com.godlife.feedservice.domain.TodoTask;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.querydsl.core.annotations.QueryProjection;
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class TodoDto {
-	public static TodoDto of(Todo todo) {
-		if (todo instanceof TodoTask) {
-			TodoTask todoTask = (TodoTask)todo;
-			return TodoDto.TodoTaskDto.builder()
-				.id(todoTask.getId())
-				.title(todoTask.getTitle())
-				.type("TASK")
-				.depth(todoTask.getDepth())
-				.orderNumber(todoTask.getOrderNumber())
-				.build();
-		} else {
-			TodoFolder todoFolder = (TodoFolder)todo;
-			return TodoDto.TodoFolderDto.builder()
-				.id(todoFolder.getId())
-				.title(todoFolder.getTitle())
-				.type("FOLDER")
-				.depth(todoFolder.getDepth())
-				.orderNumber(todoFolder.getOrderNumber())
-				.childTodos(todoFolder.getTodos().stream().map(TodoDto::of).collect(Collectors.toList()))
-				.build();
-		}
+	//===투두 공통===
+	private Long todoId;
+	@JsonIgnore
+	private Long parentTodoId;
+	private String type;
+	private String title;
+	private Integer depth;
+	private Integer orderNumber;
+	private Integer period;
+
+	//===투두 타스크===
+	private String repetitionType;
+	private List<String> repetitionParams;
+	private String notification;
+
+	//===투두 폴더===
+	private List<TodoDto> childTodos;
+
+	@QueryProjection
+	public TodoDto(Long todoId, String type, String title, Integer depth, Integer orderNumber, Integer period, String repetitionType, List<String> repetitionParams, String notification) {
+
+		this.todoId = todoId;
+		this.type = type;
+		this.title = title;
+		this.depth = depth;
+		this.orderNumber = orderNumber;
+		this.period = period;
+		this.repetitionType = repetitionType;
+		this.repetitionParams = repetitionParams;
+		this.notification = notification;
 	}
 
-	@Getter
-	@Builder
-	static class TodoTaskDto extends TodoDto {
-		private Long id;
-		private String title;
-		private String type;
-		private int depth;
-		private int orderNumber;
+	@QueryProjection
+	public TodoDto(Long todoId, Long parentTodoId, String type, String title, Integer depth, Integer orderNumber, Integer period, String repetitionType, List<String> repetitionParams,
+		String notification) {
+
+		this.todoId = todoId;
+		this.parentTodoId = parentTodoId;
+		this.type = type;
+		this.title = title;
+		this.depth = depth;
+		this.orderNumber = orderNumber;
+		this.period = period;
+		this.repetitionType = repetitionType;
+		this.repetitionParams = repetitionParams;
+		this.notification = notification;
 	}
 
-	@Getter
-	@Builder
-	static class TodoFolderDto extends TodoDto {
-		private Long id;
-		private String title;
-		private String type;
-		private int depth;
-		private int orderNumber;
-		private List<TodoDto> childTodos;
+	public void registerChildTodos(List<TodoDto> todoDtos) {
+		this.childTodos = todoDtos;
 	}
 }
