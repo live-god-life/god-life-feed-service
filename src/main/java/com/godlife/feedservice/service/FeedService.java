@@ -43,6 +43,7 @@ public class FeedService {
 			.forEach(feedsDto -> feedsDto.registerUser(userDto)));
 	}
 
+	@Transactional
 	public FeedMindsetsTodosDto getFeedDetail(Long feedId) {
 		return feedRepository.findFeedWithMindsetsAndTodosByFeedId(feedId);
 	}
