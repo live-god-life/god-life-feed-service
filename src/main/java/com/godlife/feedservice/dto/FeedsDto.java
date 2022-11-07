@@ -1,11 +1,10 @@
 package com.godlife.feedservice.dto;
 
-import com.godlife.feedservice.domain.Feed;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.querydsl.core.annotations.QueryProjection;
 
-import lombok.Builder;
 import lombok.Getter;
 
-@Builder
 @Getter
 public class FeedsDto {
 	private Long feedId;
@@ -14,24 +13,30 @@ public class FeedsDto {
 	//===카운팅===
 	private int viewCount;
 	private int pickCount;
+	private int todoCount;
+	private int todoScheduleDay;
 
 	//===이미지===
 	private String image;
 
-	//===사용자정보===
-	private Long userId;
-	private UserDto user;
+	//===북마크정보===
 	private boolean bookMarkStatus;
 
-	public static FeedsDto of(Feed feed) {
-		return FeedsDto.builder()
-			.feedId(feed.getFeedId())
-			.title(feed.getTitle())
-			.viewCount(feed.getViewCount())
-			.pickCount(feed.getPickCount())
-			.image(feed.getImage())
-			.userId(feed.getUserId())
-			.build();
+	//===사용자정보===
+	@JsonIgnore
+	private Long userId;
+	private UserDto user;
+
+	@QueryProjection
+	public FeedsDto(Long feedId, String title, int viewCount, int pickCount, int todoCount, int todoScheduleDay, String image, Long userId) {
+		this.feedId = feedId;
+		this.title = title;
+		this.viewCount = viewCount;
+		this.pickCount = pickCount;
+		this.todoCount = todoCount;
+		this.todoScheduleDay = todoScheduleDay;
+		this.image = image;
+		this.userId = userId;
 	}
 
 	public void registerUser(UserDto userDto) {

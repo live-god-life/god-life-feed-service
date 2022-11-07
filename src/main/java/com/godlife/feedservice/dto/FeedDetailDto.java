@@ -1,16 +1,9 @@
 package com.godlife.feedservice.dto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import com.godlife.feedservice.domain.Feed;
-import com.godlife.feedservice.domain.Mindset;
-import com.godlife.feedservice.domain.Todo;
-
-import lombok.Builder;
 import lombok.Getter;
 
-@Builder
 @Getter
 public class FeedDetailDto {
 	private Long feedId;
@@ -34,19 +27,4 @@ public class FeedDetailDto {
 	private List<MindsetDto> mindsets;
 	//===투두===
 	private List<TodoDto> todos;
-
-	public static FeedDetailDto createDtoWithFeedAndMindsetsAndTodos(Feed feed, List<Mindset> mindsets, List<Todo> todos) {
-		return FeedDetailDto.builder()
-			.feedId(feed.getFeedId())
-			.title(feed.getTitle())
-			.category(feed.getCategory())
-			.content(feed.getContent())
-			.viewCount(feed.getViewCount())
-			.pickCount(feed.getPickCount())
-			.image(feed.getImage())
-			.userId(feed.getUserId())
-			.mindsets(mindsets.stream().map(MindsetDto::of).collect(Collectors.toList()))
-			.todos(todos.stream().map(TodoDto::of).collect(Collectors.toList()))
-			.build();
-	}
 }

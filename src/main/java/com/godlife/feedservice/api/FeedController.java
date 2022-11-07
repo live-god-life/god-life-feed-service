@@ -9,9 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.godlife.feedservice.api.request.CreateFeedRequest;
 import com.godlife.feedservice.api.response.ApiResponse;
 import com.godlife.feedservice.api.response.ResponseCode;
 import com.godlife.feedservice.exception.NoSuchFeedException;
@@ -30,19 +33,28 @@ public class FeedController {
 	@GetMapping("/feeds")
 	public ResponseEntity<ApiResponse> getFeeds(
 		@PageableDefault(size = DEFAULT_PAGE) Pageable page,
-		@RequestParam(value = "category", required = false, defaultValue = "ALL") String category,
-		@RequestParam(value = "ids", required = false) List<Long> ids) {
+		@RequestParam(value = "category", required = false) String category,
+		@RequestParam(value = "ids", required = false) List<Long> feedIds) {
 
-		log.info("page: {}, category: {}, ids: {}", page, category, ids);
-		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeeds(page, category, ids)));
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeeds(page, category, feedIds)));
 	}
 
 	@GetMapping("/feeds/{feedId}")
-	public ResponseEntity<ApiResponse> getFeed(
+	public ResponseEntity<ApiResponse> getFeedDetail(
 		@PathVariable(value = "feedId") Long feedId) {
 
-		log.info("feedId: {}", feedId);
-		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedById(feedId)));
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedDetail(feedId)));
+	}
+
+	/*
+		  내부테스트 및 샘플피드생성용 임시 메서드
+		  1.0 출시버전에는 피드생성기능없이 출시
+	*/
+	@PostMapping("/feeds")
+	public ResponseEntity<ApiResponse> createFeed(
+		@RequestBody CreateFeedRequest request) {
+		feedService.createFeed(request);
+		return null;
 	}
 
 	@ExceptionHandler
