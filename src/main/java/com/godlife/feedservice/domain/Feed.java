@@ -38,15 +38,38 @@ public class Feed {
 
 	//===카운팅===
 	@Comment("뷰 카운트")
-	private int viewCount;
+	private Integer viewCount;
 	@Comment("가져가기 카운트")
-	private int pickCount;
+	private Integer pickCount;
 	@Comment("투두 카운트")
-	private int todoCount;
+	private Integer todoCount;
 	@Comment("투두 일정")
-	private int todoScheduleDay;
+	private Integer todoScheduleDay;
 
 	//===이미지===
 	@Comment("이미지 Path")
 	private String image;
+
+	private Feed(Long userId, Category category, String title, String content, String image) {
+		this.category = category;
+		this.title = title;
+		this.content = content;
+		this.userId = userId;
+		this.image = image;
+		this.viewCount = 0;
+		this.pickCount = 0;
+		this.todoCount = 0;
+		this.todoScheduleDay = 0;
+	}
+
+	public static Feed createFeed(Long userId, Category category, String title, String content,  String image) {
+		return new Feed(userId, category, title, content, image);
+	}
+
+	public void registerTodosInfo(Todos todos) {
+		registerTotalTodoTaskCount(todos.getTotalTodoTaskCount());
+	}
+	private void registerTotalTodoTaskCount(int todoCount) {
+		this.todoCount = todoCount;
+	}
 }

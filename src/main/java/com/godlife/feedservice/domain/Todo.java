@@ -46,4 +46,11 @@ public abstract class Todo {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "feed_id")
 	private Feed feed;
+
+	public Todo(String title, Integer depth, Integer orderNumber, Feed feed) {
+		this.title = title;
+		this.depth = depth;
+		this.orderNumber = orderNumber;
+		this.feed = feed;
+	}
 }
