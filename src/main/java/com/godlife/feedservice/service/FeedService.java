@@ -8,9 +8,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.godlife.feedservice.api.request.CreateFeedRequest;
 import com.godlife.feedservice.domain.Feed;
 import com.godlife.feedservice.domain.Mindset;
-import com.godlife.feedservice.domain.Todo;
+import com.godlife.feedservice.domain.Todos;
 import com.godlife.feedservice.dto.FeedMindsetsTodosDto;
 import com.godlife.feedservice.dto.FeedsDto;
 import com.godlife.feedservice.dto.UserDto;
@@ -55,13 +56,15 @@ public class FeedService {
 		return List.of(new UserDto(1L, "닉네임1", "https://server/1.jpg"), new UserDto(2L, "닉네임2", "https://server/2.jpg"));
 	}
 
-	/*
-	  내부테스트 및 샘플피드생성용 임시 메서드
-	  1.0 출시버전에는 피드생성기능없이 출시
-   */
 	@Transactional
-	public void createFeed(Feed feed, Mindset mindset, List<Todo> todos) {
-		mindsetRepository.save(mindset);
-		todoRepository.saveAll(todos);
+	public void createFeed(CreateFeedRequest feedDto) {
+		Feed feed = feedDto.createFeedEntity();
+		List<Mindset> mindsets = feedDto.createMindsetsEntity(feed);
+		Todos todos = new Todos(feedDto.createTodosEntity(feed));
+
+		feed.registerTodosInfo(todos);
+
+		mindsetRepository.saveAll(mindsets);
+		todoRepository.saveAll(todos.get());
 	}
 }

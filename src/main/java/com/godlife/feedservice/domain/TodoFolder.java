@@ -1,12 +1,10 @@
 package com.godlife.feedservice.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,6 +15,16 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("FOLDER")
 @Entity
 public class TodoFolder extends Todo {
-	@OneToMany(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
-	private final List<TodoTask> todos = new ArrayList<>();
+	@Embedded
+	private Todos childTodos;
+
+	private TodoFolder(String title, Integer depth, Integer orderNumber, Todos childTodos, Feed feed) {
+		super(title, depth, orderNumber, feed);
+		this.childTodos = childTodos;
+	}
+
+	public static TodoFolder createTodoFolder(String title, Integer depth, Integer orderNumber, List<Todo> childTodos, Feed feed) {
+		Todos todos = new Todos(childTodos);
+		return new TodoFolder(title, depth, orderNumber, todos, feed);
+	}
 }
