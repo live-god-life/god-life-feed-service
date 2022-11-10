@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.godlife.feedservice.api.request.CreateFeedRequest;
 import com.godlife.feedservice.domain.Feed;
+import com.godlife.feedservice.domain.Content;
 import com.godlife.feedservice.domain.Mindset;
 import com.godlife.feedservice.domain.Todos;
 import com.godlife.feedservice.dto.FeedMindsetsTodosDto;
 import com.godlife.feedservice.dto.FeedsDto;
 import com.godlife.feedservice.dto.UserDto;
+import com.godlife.feedservice.repository.ContentRepository;
 import com.godlife.feedservice.repository.FeedRepository;
 import com.godlife.feedservice.repository.MindsetRepository;
 import com.godlife.feedservice.repository.TodoRepository;
@@ -26,6 +28,7 @@ import lombok.AllArgsConstructor;
 @Service
 public class FeedService {
 	private final FeedRepository feedRepository;
+	private final ContentRepository contentRepository;
 	private final MindsetRepository mindsetRepository;
 	private final TodoRepository todoRepository;
 
@@ -60,11 +63,13 @@ public class FeedService {
 	@Transactional
 	public void createFeed(CreateFeedRequest feedDto) {
 		Feed feed = feedDto.createFeedEntity();
+		List<Content> contents = feedDto.createContentsEntity(feed);
 		List<Mindset> mindsets = feedDto.createMindsetsEntity(feed);
 		Todos todos = new Todos(feedDto.createTodosEntity(feed));
 
 		feed.registerTodosInfo(todos);
 
+		contentRepository.saveAll(contents);
 		mindsetRepository.saveAll(mindsets);
 		todoRepository.saveAll(todos.get());
 	}

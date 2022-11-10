@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @DiscriminatorColumn(name = "type")
 @Entity
 @Table(name = "feed_todo")
-public abstract class Todo {
+public abstract class Todo extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long todoId;
