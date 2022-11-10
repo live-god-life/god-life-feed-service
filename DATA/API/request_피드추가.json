@@ -2,7 +2,18 @@
   "userId": 1,
   "title": "이직하기",
   "image": "http://server/feeds/image1.jpg",
-  "content": "내용입니다.\n 내용1111",
+  "contents": [
+    {
+      "title": "1.소제목",
+      "content": "1.내용",
+      "orderNumber" : 0
+    },
+    {
+      "title": "2.소제목",
+      "content": "2.내용",
+      "orderNumber" : 1
+    }
+  ],
   "categoryName": "커리어",
   "categoryCode": "CAREER",
   "mindsets": [
