@@ -13,7 +13,6 @@ public class FeedMindsetsTodosDto {
 	private Long feedId;
 	private Category category;
 	private String title;
-	private String content;
 
 	//===카운팅===
 	private int viewCount;
@@ -24,6 +23,9 @@ public class FeedMindsetsTodosDto {
 	//===이미지===
 	private String image;
 
+	//===컨텐츠===
+	private List<ContentDto> contents;
+
 	//===마인드셋 정보===
 	private List<MindsetDto> mindsets;
 
@@ -31,16 +33,19 @@ public class FeedMindsetsTodosDto {
 	private List<TodoDto> todos;
 
 	@QueryProjection
-	public FeedMindsetsTodosDto(Long feedId, Category category, String title, String content, int viewCount, int pickCount, int todoCount, int todoScheduleDay, String image) {
+	public FeedMindsetsTodosDto(Long feedId, Category category, String title, int viewCount, int pickCount, int todoCount, int todoScheduleDay, String image) {
 		this.feedId = feedId;
 		this.category = category;
 		this.title = title;
-		this.content = content;
 		this.viewCount = viewCount;
 		this.pickCount = pickCount;
 		this.todoCount = todoCount;
 		this.todoScheduleDay = todoScheduleDay;
 		this.image = image;
+	}
+
+	public void registerContentDtos(List<ContentDto> contentDtos) {
+		this.contents = contentDtos;
 	}
 
 	public void registerMindsetDtos(List<MindsetDto> mindsetDtos) {

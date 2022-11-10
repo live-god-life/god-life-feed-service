@@ -3,6 +3,7 @@ package com.godlife.feedservice.api.request;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.godlife.feedservice.domain.Content;
 import com.godlife.feedservice.domain.Feed;
 import com.godlife.feedservice.domain.Mindset;
 import com.godlife.feedservice.domain.Todo;
@@ -25,11 +26,18 @@ public class CreateFeedRequest {
 	private String categoryName;
 	private String categoryCode;
 
-	private List<CreateFeedRequest.CreateGoalMindsetRequest> mindsets;
-	private List<CreateFeedRequest.CreateGoalTodoRequest> todos;
+	private List<CreateFeedContentRequest> contents;
+	private List<CreateFeedMindsetRequest> mindsets;
+	private List<CreateFeedTodoRequest> todos;
 
 	public Feed createFeedEntity() {
-		return Feed.createFeed(userId, Category.valueOf(categoryCode), title, content, image);
+		return Feed.createFeed(userId, Category.valueOf(categoryCode), title, image);
+	}
+
+	public List<Content> createContentsEntity(Feed feed) {
+		return contents.stream()
+			.map(createFeedContentRequest -> Content.createContent(createFeedContentRequest.title, createFeedContentRequest.content, createFeedContentRequest.orderNumber, feed))
+			.collect(Collectors.toList());
 	}
 
 	public List<Mindset> createMindsetsEntity(Feed feed) {
@@ -44,7 +52,7 @@ public class CreateFeedRequest {
 			.collect(Collectors.toList());
 	}
 
-	private Todo createTodo(CreateFeedRequest.CreateGoalTodoRequest todoDto, Feed feed) {
+	private Todo createTodo(CreateFeedTodoRequest todoDto, Feed feed) {
 		if (TodoType.FOLDER.name().equals(todoDto.getType())) {
 			return TodoFolder.createTodoFolder(
 				todoDto.getTitle(),
@@ -68,12 +76,19 @@ public class CreateFeedRequest {
 	}
 
 	@Getter
-	public static class CreateGoalMindsetRequest {
+	public static class CreateFeedContentRequest {
+		private String title;
+		private String content;
+		private Integer orderNumber;
+	}
+
+	@Getter
+	public static class CreateFeedMindsetRequest {
 		private String content;
 	}
 
 	@Getter
-	public static class CreateGoalTodoRequest {
+	public static class CreateFeedTodoRequest {
 		private String title;
 		private String type;
 		private Integer depth;
@@ -83,6 +98,6 @@ public class CreateFeedRequest {
 		private String repetitionType;
 		private List<String> repetitionParams;
 		private String notification;
-		private List<CreateGoalTodoRequest> todos;
+		private List<CreateFeedTodoRequest> todos;
 	}
 }
