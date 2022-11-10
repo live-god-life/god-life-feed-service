@@ -2,6 +2,8 @@ package com.godlife.feedservice.dto;
 
 import java.util.List;
 
+import com.godlife.feedservice.client.response.UserResponse;
+
 import lombok.Getter;
 
 @Getter
@@ -20,7 +22,7 @@ public class FeedDetailDto {
 
 	//===사용자정보===
 	private Long userId;
-	private UserDto user;
+	private UserResponse user;
 	private boolean bookMarkStatus;
 
 	//===마인드셋===
