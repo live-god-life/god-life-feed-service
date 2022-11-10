@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,15 +29,17 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class FeedController {
 	private final FeedService feedService;
+	private static final String USER_ID_HEADER = "x-user";
 	private static final int DEFAULT_PAGE = 25;
 
 	@GetMapping("/feeds")
 	public ResponseEntity<ApiResponse> getFeeds(
 		@PageableDefault(size = DEFAULT_PAGE) Pageable page,
+		@RequestHeader(USER_ID_HEADER) Long userId,
 		@RequestParam(value = "category", required = false) String category,
 		@RequestParam(value = "ids", required = false) List<Long> feedIds) {
 
-		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeeds(page, category, feedIds)));
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeeds(page, userId, category, feedIds)));
 	}
 
 	@GetMapping("/feeds/{feedId}")
