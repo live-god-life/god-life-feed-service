@@ -44,9 +44,10 @@ public class FeedController {
 
 	@GetMapping("/feeds/{feedId}")
 	public ResponseEntity<ApiResponse> getFeedDetail(
+		@RequestHeader(USER_ID_HEADER) Long userId,
 		@PathVariable(value = "feedId") Long feedId) {
 
-		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedDetail(feedId)));
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedDetail(userId, feedId)));
 	}
 
 	/*
