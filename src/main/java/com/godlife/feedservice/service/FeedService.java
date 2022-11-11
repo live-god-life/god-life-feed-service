@@ -11,20 +11,22 @@ import org.springframework.transaction.annotation.Transactional;
 import com.godlife.feedservice.api.request.CreateFeedRequest;
 import com.godlife.feedservice.client.UserServiceClient;
 import com.godlife.feedservice.client.response.BookmarkResponse;
-import com.godlife.feedservice.domain.Feed;
+import com.godlife.feedservice.client.response.UserResponse;
 import com.godlife.feedservice.domain.Content;
+import com.godlife.feedservice.domain.Feed;
 import com.godlife.feedservice.domain.Mindset;
 import com.godlife.feedservice.domain.Todos;
 import com.godlife.feedservice.dto.FeedMindsetsTodosDto;
 import com.godlife.feedservice.dto.FeedsDto;
-import com.godlife.feedservice.client.response.UserResponse;
 import com.godlife.feedservice.repository.ContentRepository;
 import com.godlife.feedservice.repository.FeedRepository;
 import com.godlife.feedservice.repository.MindsetRepository;
 import com.godlife.feedservice.repository.TodoRepository;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @AllArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -63,14 +65,25 @@ public class FeedService {
 		String ids = feeds.stream()
 			.map(feed -> feed.getUserId().toString())
 			.collect(Collectors.joining(","));
-		return userServiceClient.getUsers(ids).getData();
+
+		try {
+			return userServiceClient.getUsers(ids).getData();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return List.of();
+		}
 	}
 
 	private List<BookmarkResponse.BookmarkDto> getBookmarksInfoUsingAPI(Long userId, List<FeedsDto> feeds) {
 		String ids = feeds.stream()
 			.map(feed -> feed.getFeedId().toString())
 			.collect(Collectors.joining(","));
-		return userServiceClient.getBookmarks(userId, ids).getData();
+		try {
+			return userServiceClient.getBookmarks(userId, ids).getData();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return List.of();
+		}
 	}
 
 	@Transactional
