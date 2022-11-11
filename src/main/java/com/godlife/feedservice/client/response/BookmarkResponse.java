@@ -3,10 +3,10 @@ package com.godlife.feedservice.client.response;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
 @AllArgsConstructor
-@Getter
+@Data
 public class BookmarkResponse {
 	private String status;
 	private List<BookmarkDto> data;
@@ -14,7 +14,7 @@ public class BookmarkResponse {
 	private String message;
 
 	@AllArgsConstructor
-	@Getter
+	@Data
 	public static class BookmarkDto {
 		private Long feedId;
 		private boolean bookmarkStatus;
