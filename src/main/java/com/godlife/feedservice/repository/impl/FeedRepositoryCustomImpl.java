@@ -64,8 +64,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 	public FeedMindsetsTodosDto findFeedWithMindsetsAndTodosByFeedId(Long feedId) {
 		updateFeedViewCount(feedId);
 
-		FeedMindsetsTodosDto feedMindsetsTodosDto = findFeedDtoByFeedId(feedId)
-			.orElseThrow(() -> new NoSuchFeedException(feedId));
+		FeedMindsetsTodosDto feedMindsetsTodosDto = findFeedDtoByFeedId(feedId).orElseThrow(() -> new NoSuchFeedException(feedId));
 
 		feedMindsetsTodosDto.registerContentDtos(findContentDtosByFeedId(feedId));
 
