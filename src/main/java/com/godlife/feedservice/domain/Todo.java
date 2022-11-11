@@ -53,10 +53,11 @@ public abstract class Todo extends BaseEntity{
 	@Comment("피드 아이디")
 	private Feed feed;
 
-	public Todo(String title, Integer depth, Integer orderNumber, Feed feed) {
+	public Todo(String title, Integer depth, Integer orderNumber, Integer period, Feed feed) {
 		this.title = title;
 		this.depth = depth;
 		this.orderNumber = orderNumber;
+		this.period = period;
 		this.feed = feed;
 	}
 }

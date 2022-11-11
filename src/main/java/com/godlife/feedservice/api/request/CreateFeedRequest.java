@@ -58,6 +58,7 @@ public class CreateFeedRequest {
 				todoDto.getTitle(),
 				todoDto.getDepth(),
 				todoDto.getOrderNumber(),
+				todoDto.period,
 				todoDto.getTodos()
 					.stream()
 					.map(createFeedTodoRequest -> createTodoEntity(createFeedTodoRequest, feed))
@@ -68,6 +69,7 @@ public class CreateFeedRequest {
 				todoDto.getTitle(),
 				todoDto.getDepth(),
 				todoDto.getOrderNumber(),
+				todoDto.period,
 				RepetitionType.valueOf(todoDto.getRepetitionType()),
 				todoDto.getRepetitionParams(),
 				todoDto.getNotification(),
@@ -93,8 +95,7 @@ public class CreateFeedRequest {
 		private String type;
 		private Integer depth;
 		private Integer orderNumber;
-		private String startDate;
-		private String endDate;
+		private Integer period;
 		private String repetitionType;
 		private List<String> repetitionParams;
 		private String notification;

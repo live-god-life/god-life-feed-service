@@ -40,15 +40,14 @@ public class TodoTask extends Todo {
 	@Comment("알림")
 	private String notification;
 
-	private TodoTask(String title, Integer depth, Integer orderNumber, RepetitionType repetitionType, List<String> repetitionParams, String notification, Feed feed) {
-
-		super(title, depth, orderNumber, feed);
+	private TodoTask(String title, Integer depth, Integer orderNumber, Integer period, RepetitionType repetitionType, List<String> repetitionParams, String notification, Feed feed) {
+		super(title, depth, orderNumber, period, feed);
 		this.repetitionType = repetitionType;
 		this.repetitionParams = repetitionParams;
 		this.notification = notification;
 	}
 
-	public static Todo createTodoTask(String title, Integer depth, Integer orderNumber, RepetitionType repetitionType, List<String> repetitionParams, String notification, Feed feed) {
-		return new TodoTask(title, depth, orderNumber, repetitionType, repetitionParams, notification, feed);
+	public static Todo createTodoTask(String title, Integer depth, Integer orderNumber,Integer period, RepetitionType repetitionType, List<String> repetitionParams, String notification, Feed feed) {
+		return new TodoTask(title, depth, orderNumber, period, repetitionType, repetitionParams, notification, feed);
 	}
 }
