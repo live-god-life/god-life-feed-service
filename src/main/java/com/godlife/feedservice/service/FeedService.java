@@ -18,6 +18,7 @@ import com.godlife.feedservice.domain.Mindset;
 import com.godlife.feedservice.domain.Todos;
 import com.godlife.feedservice.dto.FeedMindsetsTodosDto;
 import com.godlife.feedservice.dto.FeedsDto;
+import com.godlife.feedservice.exception.NoSuchBookmarkException;
 import com.godlife.feedservice.repository.ContentRepository;
 import com.godlife.feedservice.repository.FeedRepository;
 import com.godlife.feedservice.repository.MindsetRepository;
@@ -42,7 +43,7 @@ public class FeedService {
 
 		List<FeedsDto> feedsDtos = feedRepository.findAllByCategoryAndFeedIds(page, category, feedIds);
 		feedDtosSetUserInfo(feedsDtos, getUsersInfoUsingAPI(feedsDtos));
-		feedDtosSetBookmarkInfo(feedsDtos, getBookmarksInfoUsingAPI(userId, feedsDtos));
+		feedDtosSetBookmarkInfo(feedsDtos, getBookmarksInfoUsingAPI(userId, getFeedIdsToString(feedsDtos)));
 		return feedsDtos;
 	}
 
@@ -77,12 +78,7 @@ public class FeedService {
 		}
 	}
 
-	private List<BookmarkResponse.BookmarkDto> getBookmarksInfoUsingAPI(Long userId, List<FeedsDto> feeds) {
-
-		String ids = feeds.stream()
-			.map(feed -> feed.getFeedId().toString())
-			.collect(Collectors.joining(","));
-
+	private List<BookmarkResponse.BookmarkDto> getBookmarksInfoUsingAPI(Long userId, String ids) {
 		try {
 			return userServiceClient.getBookmarks(userId, ids).getData();
 		} catch (Exception e) {
@@ -91,9 +87,23 @@ public class FeedService {
 		}
 	}
 
+	private static String getFeedIdsToString(List<FeedsDto> feeds) {
+		return feeds.stream()
+			.map(feed -> feed.getFeedId().toString())
+			.collect(Collectors.joining(","));
+	}
+
 	@Transactional
-	public FeedMindsetsTodosDto getFeedDetail(Long feedId) {
-		return feedRepository.findFeedWithMindsetsAndTodosByFeedId(feedId);
+	public FeedMindsetsTodosDto getFeedDetail(Long userId, Long feedId) {
+		FeedMindsetsTodosDto feedMindsetsTodosDto = feedRepository.findFeedWithMindsetsAndTodosByFeedId(feedId);
+		feedMindsetsTodosDto.registerBookmarkStatus(
+			getBookmarksInfoUsingAPI(userId, feedId.toString())
+				.stream()
+				.filter(bookmarkDto -> bookmarkDto.getFeedId().equals(feedId))
+				.findAny()
+				.orElseThrow(()-> new NoSuchBookmarkException(feedId))
+				.isBookmarkStatus());
+		return feedMindsetsTodosDto;
 	}
 
 	@Transactional

@@ -15,6 +15,7 @@ public class FeedMindsetsTodosDto {
 	private Long feedId;
 	private Category category;
 	private String title;
+	private Boolean bookMarkStatus;
 
 	//===카운팅===
 	private int viewCount;
@@ -56,5 +57,9 @@ public class FeedMindsetsTodosDto {
 
 	public void registerTodoDtos(List<TodoDto> todoDtos) {
 		this.todos = todoDtos;
+	}
+
+	public void registerBookmarkStatus(boolean bookMarkStatus) {
+		this.bookMarkStatus = bookMarkStatus;
 	}
 }
