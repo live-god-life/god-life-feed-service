@@ -2,13 +2,10 @@ package com.godlife.feedservice.client.response;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
 @Getter
 public class BookmarkResponse {
 	private String status;
@@ -16,6 +13,7 @@ public class BookmarkResponse {
 	private Integer code;
 	private String message;
 
+	@AllArgsConstructor
 	@Getter
 	public static class BookmarkDto {
 		private Long feedId;
