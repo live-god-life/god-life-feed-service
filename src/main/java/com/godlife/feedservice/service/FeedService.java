@@ -45,13 +45,11 @@ public class FeedService {
 	}
 
 	private void feedDtosSetBookmarkInfo(List<FeedsDto> feedsDtos, List<BookmarkResponse.BookmarkDto> bookmarkDtos) {
-		bookmarkDtos.forEach(
-			bookmarkDto -> feedsDtos.stream()
-				.filter(feedsDto -> feedsDto.getFeedId().equals(bookmarkDto.getFeedId()))
-				.findFirst()
-				.get()
-				.registerBookmark(bookmarkDto.isBookmarkStatus())
-		);
+		bookmarkDtos.forEach(bookmarkDto -> feedsDtos.stream()
+			.filter(feedsDto -> feedsDto.getFeedId().equals(bookmarkDto.getFeedId()))
+			.findFirst()
+			.orElseThrow()
+			.registerBookmark(bookmarkDto.isBookmarkStatus()));
 	}
 
 	private void feedDtosSetUserInfo(List<FeedsDto> feedsDtos, List<UserResponse.UserDto> userDtos) {
