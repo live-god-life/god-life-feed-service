@@ -47,6 +47,7 @@ public class FeedService {
 	}
 
 	private void feedDtosSetBookmarkInfo(List<FeedsDto> feedsDtos, List<BookmarkResponse.BookmarkDto> bookmarkDtos) {
+
 		bookmarkDtos.forEach(bookmarkDto -> feedsDtos.stream()
 			.filter(feedsDto -> feedsDto.getFeedId().equals(bookmarkDto.getFeedId()))
 			.findFirst()
@@ -55,6 +56,7 @@ public class FeedService {
 	}
 
 	private void feedDtosSetUserInfo(List<FeedsDto> feedsDtos, List<UserResponse.UserDto> userDtos) {
+
 		userDtos.forEach(userDto -> feedsDtos.stream()
 			.filter(feedsDto -> feedsDto.getUserId().equals(userDto.getUserId()))
 			.collect(Collectors.toList())
@@ -62,6 +64,7 @@ public class FeedService {
 	}
 
 	private List<UserResponse.UserDto> getUsersInfoUsingAPI(List<FeedsDto> feeds) {
+
 		String ids = feeds.stream()
 			.map(feed -> feed.getUserId().toString())
 			.collect(Collectors.joining(","));
@@ -75,9 +78,11 @@ public class FeedService {
 	}
 
 	private List<BookmarkResponse.BookmarkDto> getBookmarksInfoUsingAPI(Long userId, List<FeedsDto> feeds) {
+
 		String ids = feeds.stream()
 			.map(feed -> feed.getFeedId().toString())
 			.collect(Collectors.joining(","));
+
 		try {
 			return userServiceClient.getBookmarks(userId, ids).getData();
 		} catch (Exception e) {
@@ -93,6 +98,7 @@ public class FeedService {
 
 	@Transactional
 	public void createFeed(CreateFeedRequest feedDto) {
+
 		Feed feed = feedDto.createFeedEntity();
 		List<Content> contents = feedDto.createContentsEntity(feed);
 		List<Mindset> mindsets = feedDto.createMindsetsEntity(feed);

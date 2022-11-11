@@ -49,7 +49,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 					feed.feedId,
 					feed.title,
 					feed.viewCount,
-					feed.viewCount,
+					feed.pickCount,
 					feed.todoCount,
 					feed.todoScheduleDay,
 					feed.image,
