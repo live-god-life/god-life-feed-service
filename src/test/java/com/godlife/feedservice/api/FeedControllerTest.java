@@ -1,8 +1,11 @@
 package com.godlife.feedservice.api;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,10 +13,15 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.godlife.feedservice.client.UserServiceClient;
+import com.godlife.feedservice.client.response.BookmarkResponse;
+import com.godlife.feedservice.client.response.UserResponse;
 
 @AutoConfigureMockMvc
 //@AutoConfigureRestDocs
@@ -25,10 +33,27 @@ class FeedControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
+	@MockBean
+	UserServiceClient userServiceClient;
+
 	@Test
 	@DisplayName("모든 피드내용을 조회한다_카테고리 전체일경우")
 	void getFeedAll() throws Exception {
+		//when
+		when(userServiceClient.getUsers(any(String.class)))
+			.thenReturn(new UserResponse("success",
+				List.of(new UserResponse.UserDto(1L, "yang", "apple", "yang", "", "yang@email.com", "image")),
+				200,
+				"message"));
+
+		when(userServiceClient.getBookmarks(any(Long.class), any(String.class)))
+			.thenReturn(new BookmarkResponse("success",
+				List.of(new BookmarkResponse.BookmarkDto(1L, false)),
+				200,
+				"message"));
+		//then
 		mockMvc.perform(get("/feeds")
+				.header("x-user", "1")
 				.queryParam("page", "0")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
@@ -39,7 +64,22 @@ class FeedControllerTest {
 	@Test
 	@DisplayName("모든 피드내용을 조회한다_카테고리 커리어 CAREER")
 	void getFeedsByCategory() throws Exception {
+		//when
+		when(userServiceClient.getUsers(any(String.class)))
+			.thenReturn(new UserResponse("success",
+				List.of(new UserResponse.UserDto(1L, "yang", "apple", "yang", "", "yang@email.com", "image")),
+				200,
+				"message"));
+
+		when(userServiceClient.getBookmarks(any(Long.class), any(String.class)))
+			.thenReturn(new BookmarkResponse("success",
+				List.of(new BookmarkResponse.BookmarkDto(1L, false)),
+				200,
+				"message"));
+
+		//then
 		mockMvc.perform(get("/feeds")
+				.header("x-user", "1")
 				.queryParam("page", "1")
 				.queryParam("category", "CAREER")
 				.accept(MediaType.APPLICATION_JSON))
@@ -50,7 +90,22 @@ class FeedControllerTest {
 	@Test
 	@DisplayName("모든 피드내용을 조회한다_파라미터 아이디배열에따라")
 	void getFeedByIds() throws Exception {
+		//when
+		when(userServiceClient.getUsers(any(String.class)))
+			.thenReturn(new UserResponse("success",
+				List.of(new UserResponse.UserDto(1L, "yang", "apple", "yang", "", "yang@email.com", "image")),
+				200,
+				"message"));
+
+		when(userServiceClient.getBookmarks(any(Long.class), any(String.class)))
+			.thenReturn(new BookmarkResponse("success",
+				List.of(new BookmarkResponse.BookmarkDto(1L, false)),
+				200,
+				"message"));
+
+		//then
 		mockMvc.perform(get("/feeds")
+				.header("x-user", "1")
 				.queryParam("ids", "1,2,3")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
