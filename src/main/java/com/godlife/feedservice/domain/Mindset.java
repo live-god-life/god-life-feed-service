@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 public class Mindset extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Comment("마인드셋 아이디")
 	private Long mindsetId;
 
 	@Comment("마인드셋 내용")
@@ -30,6 +31,7 @@ public class Mindset extends BaseEntity{
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "feed_id")
+	@Comment("피드 아이디")
 	private Feed feed;
 
 	private Mindset(String content, Feed feed) {

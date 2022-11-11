@@ -27,9 +27,10 @@ import lombok.NoArgsConstructor;
 public class TodoTask extends Todo {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_todo_id")
+	@Comment("부모 투두 아이디")
 	private Todo todo;
 	@Enumerated(EnumType.STRING)
-	@Comment("기간 type")
+	@Comment("기간 타입")
 	private RepetitionType repetitionType;
 
 	@Convert(converter = StringListConverter.class)

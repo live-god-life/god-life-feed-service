@@ -26,18 +26,23 @@ import lombok.NoArgsConstructor;
 public abstract class Todo extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Comment("투두 아이디")
 	private Long todoId;
 
 	@Column(insertable = false, updatable = false)
+	@Comment("투두 타입")
 	private String type;
 
 	@Column(nullable = false)
+	@Comment("투두 제목")
 	private String title;
 
 	@Column(nullable = false)
+	@Comment("투두 뎁스")
 	private Integer depth;
 
 	@Column(nullable = false)
+	@Comment("투두 정렬순서")
 	private Integer orderNumber;
 
 	@Comment("투두 기간")
@@ -45,6 +50,7 @@ public abstract class Todo extends BaseEntity{
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "feed_id")
+	@Comment("피드 아이디")
 	private Feed feed;
 
 	public Todo(String title, Integer depth, Integer orderNumber, Feed feed) {
