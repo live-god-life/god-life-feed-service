@@ -27,12 +27,14 @@
       "type": "FOLDER",
       "depth": 1,
       "orderNumber": 0,
+      "period" : 90,
       "todos": [
         {
           "title": "컨셉잡기",
           "type": "TASK",
           "depth": 2,
           "orderNumber": 0,
+          "period" : 90,
           "repetitionType": "DAY",
           "repetitionParams": null,
           "notification": "0900"
@@ -42,6 +44,7 @@
           "type": "TASK",
           "depth": 2,
           "orderNumber": 1,
+          "period" : 90,
           "repetitionType": "WEEK",
           "repetitionParams": [
             "월",
@@ -55,6 +58,7 @@
           "type": "TASK",
           "depth": 2,
           "orderNumber": 2,
+          "period" : 90,
           "repetitionType": "MONTH",
           "repetitionParams": [
             "9",
@@ -70,12 +74,14 @@
       "type": "FOLDER",
       "depth": 1,
       "orderNumber": 1,
+      "period" : 90,
       "todos": [
         {
           "title": "IT 동아리 서류 내기",
           "type": "TASK",
           "depth": 2,
           "orderNumber": 0,
+          "period" : 90,
           "repetitionType": "MONTH",
           "repetitionParams": [
             "9",
@@ -89,6 +95,7 @@
           "type": "TASK",
           "depth": 2,
           "orderNumber": 0,
+          "period" : 90,
           "repetitionType": "MONTH",
           "repetitionParams": [
             "9",
@@ -104,6 +111,7 @@
       "type": "TASK",
       "depth": 1,
       "orderNumber": 2,
+      "period" : 90,
       "repetitionType": "NONE",
       "repetitionParams": null,
       "notification": "0900"
