@@ -48,19 +48,20 @@ public class CreateFeedRequest {
 
 	public List<Todo> createTodosEntity(Feed feed) {
 		return todos.stream()
-			.map(todoDto -> createTodo(todoDto, feed))
+			.map(todoDto -> createTodoEntity(todoDto, feed))
 			.collect(Collectors.toList());
 	}
 
-	private Todo createTodo(CreateFeedTodoRequest todoDto, Feed feed) {
+	private Todo createTodoEntity(CreateFeedTodoRequest todoDto, Feed feed) {
 		if (TodoType.FOLDER.name().equals(todoDto.getType())) {
 			return TodoFolder.createTodoFolder(
 				todoDto.getTitle(),
 				todoDto.getDepth(),
 				todoDto.getOrderNumber(),
+				todoDto.period,
 				todoDto.getTodos()
 					.stream()
-					.map(createFeedTodoRequest -> createTodo(createFeedTodoRequest, feed))
+					.map(createFeedTodoRequest -> createTodoEntity(createFeedTodoRequest, feed))
 					.collect(Collectors.toList()),
 				feed);
 		} else {
@@ -68,6 +69,7 @@ public class CreateFeedRequest {
 				todoDto.getTitle(),
 				todoDto.getDepth(),
 				todoDto.getOrderNumber(),
+				todoDto.period,
 				RepetitionType.valueOf(todoDto.getRepetitionType()),
 				todoDto.getRepetitionParams(),
 				todoDto.getNotification(),
@@ -93,8 +95,7 @@ public class CreateFeedRequest {
 		private String type;
 		private Integer depth;
 		private Integer orderNumber;
-		private String startDate;
-		private String endDate;
+		private Integer period;
 		private String repetitionType;
 		private List<String> repetitionParams;
 		private String notification;

@@ -20,7 +20,7 @@ public class Content extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Comment("피드 컨텐츠 아이디")
-	private Long feedContentId;
+	private Long contentId;
 	@Comment("피드 컨텐츠 소제목")
 	private String title;
 	@Comment("피드 컨텐츠 내용")

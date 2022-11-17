@@ -49,7 +49,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 					feed.feedId,
 					feed.title,
 					feed.viewCount,
-					feed.viewCount,
+					feed.pickCount,
 					feed.todoCount,
 					feed.todoScheduleDay,
 					feed.image,
@@ -64,8 +64,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 	public FeedMindsetsTodosDto findFeedWithMindsetsAndTodosByFeedId(Long feedId) {
 		updateFeedViewCount(feedId);
 
-		FeedMindsetsTodosDto feedMindsetsTodosDto = findFeedDtoByFeedId(feedId)
-			.orElseThrow(() -> new NoSuchFeedException(feedId));
+		FeedMindsetsTodosDto feedMindsetsTodosDto = findFeedDtoByFeedId(feedId).orElseThrow(() -> new NoSuchFeedException(feedId));
 
 		feedMindsetsTodosDto.registerContentDtos(findContentDtosByFeedId(feedId));
 

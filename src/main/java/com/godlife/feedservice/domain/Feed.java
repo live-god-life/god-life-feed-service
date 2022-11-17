@@ -6,7 +6,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 
 import org.hibernate.annotations.Comment;
 
@@ -22,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class Feed extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Comment("피드 아이디")
 	private Long feedId;
 	@Enumerated(EnumType.STRING)
 	@Comment("피드 카테고리")

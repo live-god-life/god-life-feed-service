@@ -21,7 +21,7 @@ public class FeedsDto {
 	private String image;
 
 	//===북마크정보===
-	private boolean bookMarkStatus;
+	private Boolean bookMarkStatus;
 
 	//===사용자정보===
 	@JsonIgnore
