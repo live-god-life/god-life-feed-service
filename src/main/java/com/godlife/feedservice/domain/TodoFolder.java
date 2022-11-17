@@ -18,13 +18,15 @@ public class TodoFolder extends Todo {
 	@Embedded
 	private Todos childTodos;
 
-	private TodoFolder(String title, Integer depth, Integer orderNumber, Todos childTodos, Feed feed) {
-		super(title, depth, orderNumber, feed);
+	private TodoFolder(String title, Integer depth, Integer orderNumber, Integer period, Todos childTodos, Feed feed) {
+
+		super(title, depth, orderNumber, period, feed);
 		this.childTodos = childTodos;
 	}
 
-	public static TodoFolder createTodoFolder(String title, Integer depth, Integer orderNumber, List<Todo> childTodos, Feed feed) {
+	public static TodoFolder createTodoFolder(String title, Integer depth, Integer orderNumber, Integer period, List<Todo> childTodos, Feed feed) {
+
 		Todos todos = new Todos(childTodos);
-		return new TodoFolder(title, depth, orderNumber, todos, feed);
+		return new TodoFolder(title, depth, orderNumber, period, todos, feed);
 	}
 }

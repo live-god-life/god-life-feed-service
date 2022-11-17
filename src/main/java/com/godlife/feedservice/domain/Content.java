@@ -7,39 +7,40 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Comment;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "feed_content")
 @Entity
-@Table(name = "feed_mindset")
-public class Mindset extends BaseEntity{
+public class Content extends BaseEntity{
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Comment("마인드셋 아이디")
-	private Long mindsetId;
-
-	@Comment("마인드셋 내용")
+	@Comment("피드 컨텐츠 아이디")
+	private Long contentId;
+	@Comment("피드 컨텐츠 소제목")
+	private String title;
+	@Comment("피드 컨텐츠 내용")
+	@Lob
 	private String content;
+	@Comment("피드 컨텐츠 정렬순서")
+	private Integer orderNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "feed_id")
-	@Comment("피드 아이디")
 	private Feed feed;
 
-	private Mindset(String content, Feed feed) {
+	private Content(String title, String content, Integer orderNumber, Feed feed) {
+		this.title = title;
 		this.content = content;
+		this.orderNumber = orderNumber;
 		this.feed = feed;
 	}
 
-	public static Mindset createMindset(String content, Feed feed) {
-		return new Mindset(content, feed);
+	public static Content createContent(String title, String content, Integer orderNumber, Feed feed) {
+		return new Content(title, content, orderNumber, feed);
 	}
 }

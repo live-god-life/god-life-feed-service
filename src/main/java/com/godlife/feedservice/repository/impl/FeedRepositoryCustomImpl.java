@@ -1,5 +1,6 @@
 package com.godlife.feedservice.repository.impl;
 
+import static com.godlife.feedservice.domain.QContent.*;
 import static com.godlife.feedservice.domain.QFeed.*;
 import static com.godlife.feedservice.domain.QMindset.*;
 import static com.godlife.feedservice.domain.QTodo.*;
@@ -16,9 +17,11 @@ import javax.persistence.EntityManager;
 import org.springframework.data.domain.Pageable;
 
 import com.godlife.feedservice.domain.enums.Category;
+import com.godlife.feedservice.dto.ContentDto;
 import com.godlife.feedservice.dto.FeedMindsetsTodosDto;
 import com.godlife.feedservice.dto.FeedsDto;
 import com.godlife.feedservice.dto.MindsetDto;
+import com.godlife.feedservice.dto.QContentDto;
 import com.godlife.feedservice.dto.QFeedMindsetsTodosDto;
 import com.godlife.feedservice.dto.QFeedsDto;
 import com.godlife.feedservice.dto.QMindsetDto;
@@ -46,7 +49,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 					feed.feedId,
 					feed.title,
 					feed.viewCount,
-					feed.viewCount,
+					feed.pickCount,
 					feed.todoCount,
 					feed.todoScheduleDay,
 					feed.image,
@@ -61,8 +64,9 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 	public FeedMindsetsTodosDto findFeedWithMindsetsAndTodosByFeedId(Long feedId) {
 		updateFeedViewCount(feedId);
 
-		FeedMindsetsTodosDto feedMindsetsTodosDto = findFeedDtoByFeedId(feedId)
-			.orElseThrow(() -> new NoSuchFeedException(feedId));
+		FeedMindsetsTodosDto feedMindsetsTodosDto = findFeedDtoByFeedId(feedId).orElseThrow(() -> new NoSuchFeedException(feedId));
+
+		feedMindsetsTodosDto.registerContentDtos(findContentDtosByFeedId(feedId));
 
 		feedMindsetsTodosDto.registerMindsetDtos(findMindsetDtosByFeedId(feedId));
 
@@ -72,6 +76,18 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 		feedMindsetsTodosDto.registerTodoDtos(parentTodoDtos);
 
 		return feedMindsetsTodosDto;
+	}
+
+	private List<ContentDto> findContentDtosByFeedId(Long feedId) {
+		return queryFactory
+			.select(new QContentDto(
+				content1.title,
+				content1.content,
+				content1.orderNumber
+			))
+			.from(content1)
+			.where(content1.feed.feedId.eq(feedId))
+			.fetch();
 	}
 
 	private static void setChildTodoDtosInParentTodoDtos(List<TodoDto> todoDtos, List<TodoDto> childTodoDtos) {
@@ -145,7 +161,6 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 					feed.feedId,
 					feed.category,
 					feed.title,
-					feed.content,
 					feed.viewCount,
 					feed.pickCount,
 					feed.todoCount,

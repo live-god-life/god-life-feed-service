@@ -6,7 +6,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 
 import org.hibernate.annotations.Comment;
 
@@ -19,18 +18,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Feed {
+public class Feed extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Comment("피드 아이디")
 	private Long feedId;
 	@Enumerated(EnumType.STRING)
 	@Comment("피드 카테고리")
 	private Category category;
 	@Comment("피드 제목")
 	private String title;
-	@Comment("피드 내용")
-	@Lob
-	private String content;
 
 	//===사용자정보===
 	@Comment("작성자 ID")
@@ -50,10 +47,9 @@ public class Feed {
 	@Comment("이미지 Path")
 	private String image;
 
-	private Feed(Long userId, Category category, String title, String content, String image) {
+	private Feed(Long userId, Category category, String title, String image) {
 		this.category = category;
 		this.title = title;
-		this.content = content;
 		this.userId = userId;
 		this.image = image;
 		this.viewCount = 0;
@@ -62,13 +58,14 @@ public class Feed {
 		this.todoScheduleDay = 0;
 	}
 
-	public static Feed createFeed(Long userId, Category category, String title, String content,  String image) {
-		return new Feed(userId, category, title, content, image);
+	public static Feed createFeed(Long userId, Category category, String title, String image) {
+		return new Feed(userId, category, title, image);
 	}
 
 	public void registerTodosInfo(Todos todos) {
 		registerTotalTodoTaskCount(todos.getTotalTodoTaskCount());
 	}
+
 	private void registerTotalTodoTaskCount(int todoCount) {
 		this.todoCount = todoCount;
 	}

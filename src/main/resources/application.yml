@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: goal-service
+    name: feed-service
   profiles:
     active: local
   output.ansi.enabled: always
