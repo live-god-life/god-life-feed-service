@@ -42,7 +42,7 @@ public class FeedService {
 	public List<FeedsDto> getFeeds(Pageable page, Long userId, @Nullable String category, @Nullable List<Long> feedIds) {
 
 		List<FeedsDto> feedsDtos = feedRepository.findAllByCategoryAndFeedIds(page, category, feedIds);
-		feedDtosSetUserInfo(feedsDtos, getUsersInfoUsingAPI(feedsDtos));
+		feedDtosSetUserInfo(feedsDtos, getUsersInfoUsingAPI(getUserIdsToString(feedsDtos)));
 		feedDtosSetBookmarkInfo(feedsDtos, getBookmarksInfoUsingAPI(userId, getFeedIdsToString(feedsDtos)));
 		return feedsDtos;
 	}
@@ -64,18 +64,20 @@ public class FeedService {
 			.forEach(feedsDto -> feedsDto.registerUser(userDto)));
 	}
 
-	private List<UserResponse.UserDto> getUsersInfoUsingAPI(List<FeedsDto> feeds) {
-
-		String ids = feeds.stream()
-			.map(feed -> feed.getUserId().toString())
-			.collect(Collectors.joining(","));
-
+	private List<UserResponse.UserDto> getUsersInfoUsingAPI(String ids) {
 		try {
 			return userServiceClient.getUsers(ids).getData();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return List.of();
 		}
+	}
+
+	private static String getUserIdsToString(List<FeedsDto> feeds) {
+		String ids = feeds.stream()
+			.map(feed -> feed.getUserId().toString())
+			.collect(Collectors.joining(","));
+		return ids;
 	}
 
 	private List<BookmarkResponse.BookmarkDto> getBookmarksInfoUsingAPI(Long userId, String ids) {
@@ -96,7 +98,8 @@ public class FeedService {
 	@Transactional
 	public FeedMindsetsTodosDto getFeedDetail(Long userId, Long feedId) {
 		FeedMindsetsTodosDto feedMindsetsTodosDto = feedRepository.findFeedWithMindsetsAndTodosByFeedId(feedId);
-		feedMindsetsTodosDto.registerBookmarkStatus(
+		feedMindsetsTodosDto.setUserInfo(getUsersInfoUsingAPI(userId.toString()));
+		feedMindsetsTodosDto.setBookmarkStatus(
 			getBookmarksInfoUsingAPI(userId, feedId.toString())
 				.stream()
 				.filter(bookmarkDto -> bookmarkDto.getFeedId().equals(feedId))
