@@ -3,6 +3,7 @@ package com.godlife.feedservice.dto;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.godlife.feedservice.client.response.UserResponse;
 import com.godlife.feedservice.domain.enums.Category;
 import com.querydsl.core.annotations.QueryProjection;
 
@@ -15,6 +16,10 @@ public class FeedMindsetsTodosDto {
 	private Long feedId;
 	private Category category;
 	private String title;
+
+	//===사용자정보===
+	private UserResponse.UserDto user;
+
 	private Boolean bookMarkStatus;
 
 	//===카운팅===
@@ -59,7 +64,11 @@ public class FeedMindsetsTodosDto {
 		this.todos = todoDtos;
 	}
 
-	public void registerBookmarkStatus(boolean bookMarkStatus) {
+	public void setBookmarkStatus(boolean bookMarkStatus) {
 		this.bookMarkStatus = bookMarkStatus;
+	}
+
+	public void setUserInfo(List<UserResponse.UserDto> user) {
+		this.user = user.get(0);
 	}
 }
