@@ -10,6 +10,7 @@ import lombok.Getter;
 public class FeedsDto {
 	private Long feedId;
 	private String title;
+	private String category;
 
 	//===카운팅===
 	private int viewCount;
@@ -29,9 +30,10 @@ public class FeedsDto {
 	private UserResponse.UserDto user;
 
 	@QueryProjection
-	public FeedsDto(Long feedId, String title, int viewCount, int pickCount, int todoCount, int todoScheduleDay, String image, Long userId) {
+	public FeedsDto(Long feedId, String title, String category, int viewCount, int pickCount, int todoCount, int todoScheduleDay, String image, Long userId) {
 		this.feedId = feedId;
 		this.title = title;
+		this.category = category;
 		this.viewCount = viewCount;
 		this.pickCount = pickCount;
 		this.todoCount = todoCount;
