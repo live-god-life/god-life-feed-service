@@ -48,6 +48,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 				new QFeedsDto(
 					feed.feedId,
 					feed.title,
+					feed.category.stringValue(),
 					feed.viewCount,
 					feed.pickCount,
 					feed.todoCount,
