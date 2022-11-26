@@ -58,6 +58,8 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 			.from(feed)
 			.where(isFeedIdIn(feedIds),
 				isEqCategory(category))
+			.offset(page.getOffset())
+			.limit(page.getPageSize())
 			.fetch();
 	}
 

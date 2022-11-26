@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FeedController {
 	private final FeedService feedService;
 	private static final String USER_ID_HEADER = "x-user";
-	private static final int DEFAULT_PAGE = 50;
+	private static final int DEFAULT_PAGE = 30;
 
 	@GetMapping("/feeds")
 	public ResponseEntity<ApiResponse> getFeeds(
