@@ -42,7 +42,7 @@ class FeedControllerTest {
 		//when
 		when(userServiceClient.getUsers(any(String.class)))
 			.thenReturn(new UserResponse("success",
-				List.of(new UserResponse.UserDto(1L, "yang", "apple", "yang", "", "yang@email.com", "image")),
+				List.of(new UserResponse.UserDto(1L, "yang", "image")),
 				200,
 				"message"));
 
@@ -67,7 +67,7 @@ class FeedControllerTest {
 		//when
 		when(userServiceClient.getUsers(any(String.class)))
 			.thenReturn(new UserResponse("success",
-				List.of(new UserResponse.UserDto(1L, "yang", "apple", "yang", "", "yang@email.com", "image")),
+				List.of(new UserResponse.UserDto(1L, "yang", "image")),
 				200,
 				"message"));
 
@@ -93,7 +93,7 @@ class FeedControllerTest {
 		//when
 		when(userServiceClient.getUsers(any(String.class)))
 			.thenReturn(new UserResponse("success",
-				List.of(new UserResponse.UserDto(1L, "yang", "apple", "yang", "", "yang@email.com", "image")),
+				List.of(new UserResponse.UserDto(1L, "yang", "image")),
 				200,
 				"message"));
 

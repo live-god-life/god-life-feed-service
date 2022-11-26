@@ -48,6 +48,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 				new QFeedsDto(
 					feed.feedId,
 					feed.title,
+					feed.category.stringValue(),
 					feed.viewCount,
 					feed.pickCount,
 					feed.todoCount,
@@ -57,6 +58,8 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 			.from(feed)
 			.where(isFeedIdIn(feedIds),
 				isEqCategory(category))
+			.offset(page.getOffset())
+			.limit(page.getPageSize())
 			.fetch();
 	}
 
