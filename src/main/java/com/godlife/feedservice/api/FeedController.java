@@ -61,7 +61,7 @@ public class FeedController {
 	public ResponseEntity<Resource> getImage(
 		@PathVariable(value = "imageName") String imageName) {
 		try {
-			String path = "/home/images/feeds";
+			String path = "/home/images/feeds/";
 			FileSystemResource resource = new FileSystemResource(path + imageName);
 			if (!resource.exists()) {
 				throw new NoSuchElementException();
