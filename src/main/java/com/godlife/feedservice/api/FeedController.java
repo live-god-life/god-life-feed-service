@@ -1,9 +1,16 @@
 package com.godlife.feedservice.api;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,6 +55,24 @@ public class FeedController {
 		@PathVariable(value = "feedId") Long feedId) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(feedService.getFeedDetail(userId, feedId)));
+	}
+
+	@GetMapping("/feeds/images/{imageName}")
+	public ResponseEntity<Resource> getImage(
+		@PathVariable(value = "imageName") String imageName) {
+		try {
+			String path = "/home/images/feeds";
+			FileSystemResource resource = new FileSystemResource(path + imageName);
+			if (!resource.exists()) {
+				throw new NoSuchElementException();
+			}
+			HttpHeaders header = new HttpHeaders();
+			Path filePath = Paths.get(path + imageName);
+			header.add("Content-Type", Files.probeContentType(filePath));
+			return new ResponseEntity<>(resource, header, HttpStatus.OK);
+		} catch (Exception e) {
+			throw new NoSuchElementException();
+		}
 	}
 
 	/*
