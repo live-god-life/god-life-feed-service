@@ -184,7 +184,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 	}
 
 	private static BooleanExpression isEqCategory(String category) {
-		if (Objects.isNull(category)) {
+		if (Objects.isNull(category) || Category.ALL.toString().equals(category)) {
 			return null;
 		}
 		return feed.category.eq(Category.valueOf(category));

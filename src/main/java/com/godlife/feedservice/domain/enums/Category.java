@@ -1,6 +1,7 @@
 package com.godlife.feedservice.domain.enums;
 
 public enum Category {
+	ALL("전체"),
 	LIFESTYLE("생활습관"),
 	WORKOUT("운동"),
 	CAREER("커리어"),
