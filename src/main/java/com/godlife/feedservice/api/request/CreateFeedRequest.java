@@ -22,6 +22,7 @@ public class CreateFeedRequest {
 	private String title;
 	private String content;
 	private String image;
+	private String thumbnailImage;
 
 	private String categoryName;
 	private String categoryCode;
@@ -31,7 +32,7 @@ public class CreateFeedRequest {
 	private List<CreateFeedTodoRequest> todos;
 
 	public Feed createFeedEntity() {
-		return Feed.createFeed(userId, Category.valueOf(categoryCode), title, image);
+		return Feed.createFeed(userId, Category.valueOf(categoryCode), title, image, thumbnailImage);
 	}
 
 	public List<Content> createContentsEntity(Feed feed) {
@@ -58,7 +59,7 @@ public class CreateFeedRequest {
 				todoDto.getTitle(),
 				todoDto.getDepth(),
 				todoDto.getOrderNumber(),
-				todoDto.period,
+				todoDto.getPeriod(),
 				todoDto.getTodos()
 					.stream()
 					.map(createFeedTodoRequest -> createTodoEntity(createFeedTodoRequest, feed))
@@ -69,7 +70,7 @@ public class CreateFeedRequest {
 				todoDto.getTitle(),
 				todoDto.getDepth(),
 				todoDto.getOrderNumber(),
-				todoDto.period,
+				todoDto.getPeriod(),
 				RepetitionType.valueOf(todoDto.getRepetitionType()),
 				todoDto.getRepetitionParams(),
 				todoDto.getNotification(),
