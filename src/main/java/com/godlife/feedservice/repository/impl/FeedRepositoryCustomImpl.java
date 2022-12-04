@@ -53,7 +53,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 					feed.pickCount,
 					feed.todoCount,
 					feed.todoScheduleDay,
-					feed.image,
+					feed.thumbnailImage,
 					feed.userId))
 			.from(feed)
 			.where(isFeedIdIn(feedIds),

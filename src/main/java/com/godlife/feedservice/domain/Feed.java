@@ -44,22 +44,26 @@ public class Feed extends BaseEntity{
 	private Integer todoScheduleDay;
 
 	//===이미지===
-	@Comment("이미지 Path")
+	@Comment("이미지 상세 Path")
 	private String image;
 
-	private Feed(Long userId, Category category, String title, String image) {
+	@Comment("이미지 상세 Path")
+	private String thumbnailImage;
+
+	private Feed(Long userId, Category category, String title, String image, String thumbnailImage) {
 		this.category = category;
 		this.title = title;
 		this.userId = userId;
 		this.image = image;
+		this.thumbnailImage = thumbnailImage;
 		this.viewCount = 0;
 		this.pickCount = 0;
 		this.todoCount = 0;
 		this.todoScheduleDay = 0;
 	}
 
-	public static Feed createFeed(Long userId, Category category, String title, String image) {
-		return new Feed(userId, category, title, image);
+	public static Feed createFeed(Long userId, Category category, String title, String image, String thumbnailImage) {
+		return new Feed(userId, category, title, image, thumbnailImage);
 	}
 
 	public void registerTodosInfo(Todos todos) {
