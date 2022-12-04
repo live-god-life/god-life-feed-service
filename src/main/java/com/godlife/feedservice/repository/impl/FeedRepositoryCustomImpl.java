@@ -60,6 +60,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 				isEqCategory(category))
 			.offset(page.getOffset())
 			.limit(page.getPageSize())
+			.orderBy(feed.updatedDate.desc())
 			.fetch();
 	}
 
