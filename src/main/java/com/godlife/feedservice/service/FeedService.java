@@ -98,7 +98,7 @@ public class FeedService {
 	@Transactional
 	public FeedMindsetsTodosDto getFeedDetail(Long userId, Long feedId) {
 		FeedMindsetsTodosDto feedMindsetsTodosDto = feedRepository.findFeedWithMindsetsAndTodosByFeedId(feedId);
-		feedMindsetsTodosDto.setUserInfo(getUsersInfoUsingAPI(userId.toString()));
+		feedMindsetsTodosDto.setUserInfo(getUsersInfoUsingAPI(feedMindsetsTodosDto.getUserId().toString()));
 		feedMindsetsTodosDto.setBookmarkStatus(
 			getBookmarksInfoUsingAPI(userId, feedId.toString())
 				.stream()
