@@ -165,6 +165,7 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 					feed.feedId,
 					feed.category,
 					feed.title,
+					feed.userId,
 					feed.viewCount,
 					feed.pickCount,
 					feed.todoCount,
