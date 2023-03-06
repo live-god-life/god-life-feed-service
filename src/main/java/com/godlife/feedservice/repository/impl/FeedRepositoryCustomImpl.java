@@ -113,6 +113,8 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 					todo.depth,
 					todo.orderNumber,
 					todo.period,
+					todoTask.startDay,
+					todoTask.endDay,
 					todoTask.repetitionType.stringValue(),
 					todoTask.repetitionParams,
 					todoTask.notification))
@@ -134,6 +136,8 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom {
 					todo.depth,
 					todo.orderNumber,
 					todo.period,
+					todoTask.startDay,
+					todoTask.endDay,
 					todoTask.repetitionType.stringValue(),
 					todoTask.repetitionParams,
 					todoTask.notification
