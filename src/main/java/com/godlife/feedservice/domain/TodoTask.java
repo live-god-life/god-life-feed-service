@@ -37,6 +37,12 @@ public class TodoTask extends Todo {
 	@Comment("기간 파라미터")
 	private List<String> repetitionParams;
 
+	@Comment("피드 투두 시작일")
+	private Integer startDay;
+
+	@Comment("피드 투두 종료일")
+	private Integer endDay;
+
 	@Comment("알림")
 	private String notification;
 

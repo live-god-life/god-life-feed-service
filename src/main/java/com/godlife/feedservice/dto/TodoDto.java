@@ -20,6 +20,8 @@ public class TodoDto {
 	private Integer depth;
 	private Integer orderNumber;
 	private Integer period;
+	private Integer startDay;
+	private Integer endDay;
 
 	//===투두 타스크===
 	private String repetitionType;
@@ -30,7 +32,8 @@ public class TodoDto {
 	private List<TodoDto> childTodos;
 
 	@QueryProjection
-	public TodoDto(Long todoId, String type, String title, Integer depth, Integer orderNumber, Integer period, String repetitionType, List<String> repetitionParams, String notification) {
+	public TodoDto(Long todoId, String type, String title, Integer depth, Integer orderNumber, Integer period, Integer startDay, Integer endDay, String repetitionType, List<String> repetitionParams,
+		String notification) {
 
 		this.todoId = todoId;
 		this.type = type;
@@ -38,14 +41,16 @@ public class TodoDto {
 		this.depth = depth;
 		this.orderNumber = orderNumber;
 		this.period = period;
+		this.startDay = startDay;
+		this.endDay = endDay;
 		this.repetitionType = repetitionType;
 		this.repetitionParams = repetitionParams;
 		this.notification = notification;
 	}
 
 	@QueryProjection
-	public TodoDto(Long todoId, Long parentTodoId, String type, String title, Integer depth, Integer orderNumber, Integer period, String repetitionType, List<String> repetitionParams,
-		String notification) {
+	public TodoDto(Long todoId, Long parentTodoId, String type, String title, Integer depth, Integer orderNumber, Integer period, Integer startDay, Integer endDay, String repetitionType,
+		List<String> repetitionParams, String notification) {
 
 		this.todoId = todoId;
 		this.parentTodoId = parentTodoId;
@@ -54,6 +59,8 @@ public class TodoDto {
 		this.depth = depth;
 		this.orderNumber = orderNumber;
 		this.period = period;
+		this.startDay = startDay;
+		this.endDay = endDay;
 		this.repetitionType = repetitionType;
 		this.repetitionParams = repetitionParams;
 		this.notification = notification;
